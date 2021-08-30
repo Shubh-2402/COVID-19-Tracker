@@ -3,6 +3,7 @@ import './App.css';
 import {FormControl,Select,MenuItem,Card,CardContent} from '@material-ui/core'
 import InfoBox from './InfoBox';
 import Map from './Map';
+import LineGraph from './LineGraph';
 import Table from './Table'
 import {sortData} from './utils.js'
 
@@ -21,6 +22,7 @@ function App() {
       setCountryInfo(data);
     })
   }, [])
+
 
   useEffect(()=>{
 
@@ -92,7 +94,7 @@ function App() {
           <h2>Live Cases by country</h2>
           <Table countries={tableData} />
           <h3>Worldwide new cases</h3>
-          {/* graph */}
+          <LineGraph />
         </CardContent>
       </Card>
     </div>
