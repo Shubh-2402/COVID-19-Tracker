@@ -6,6 +6,7 @@ import Map from './Map';
 import LineGraph from './LineGraph';
 import Table from './Table'
 import {sortData} from './utils.js'
+import "leaflet/dist/leaflet.css";
 
 function App() {
 
@@ -13,6 +14,9 @@ function App() {
   const[country,setCountry]=useState("worldwide");
   const[countryInfo,setCountryInfo]=useState({});
   const[tableData,setTableData]=useState([]);
+  const[mapCenter,setMapCenter]=useState([34.80746,-40.4796]);
+  const[mapZoom,setMapZoom]=useState(3);
+  const[mapCountries,setMapCountries]=useState([]);
 
   useEffect(() => {
 
@@ -38,7 +42,8 @@ function App() {
 
         const sortedData = sortData(data);
         setTableData(sortedData);
-        setCountries(countries)
+        setCountries(countries);
+        setMapCountries(data);
       }) 
     }
 
@@ -48,7 +53,7 @@ function App() {
   const onCountryChange= async (event)=>{
 
     const countryCode = event.target.value;
-    setCountry(countryCode);
+    
 
     const url = countryCode==="worldwide" ?
      "https://disease.sh/v3/covid-19/all" : 
@@ -58,7 +63,10 @@ function App() {
      .then((response)=>response.json())
      .then((data)=>{
 
+      setCountry(countryCode);
       setCountryInfo(data);
+      setMapCenter([data.countryInfo.lat,data.countryInfo.long]);
+      setMapZoom(4);
      })
   }
   return (
@@ -86,7 +94,7 @@ function App() {
           <InfoBox title="Deaths" cases={countryInfo.todayDeaths} total={countryInfo.deaths}></InfoBox>
         </div>
 
-        <Map />
+        <Map countries={mapCountries} center={mapCenter} zoom={mapZoom} casesType="cases" />
       </div>
 
       <Card className="app_right">
