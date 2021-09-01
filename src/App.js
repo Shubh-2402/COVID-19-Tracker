@@ -5,7 +5,7 @@ import InfoBox from './InfoBox';
 import Map from './Map';
 import LineGraph from './LineGraph';
 import Table from './Table'
-import {sortData} from './utils.js'
+import {sortData,prettyPrintStat} from './utils.js'
 import "leaflet/dist/leaflet.css";
 
 function App() {
@@ -17,6 +17,7 @@ function App() {
   const[mapCenter,setMapCenter]=useState([34.80746,-40.4796]);
   const[mapZoom,setMapZoom]=useState(3);
   const[mapCountries,setMapCountries]=useState([]);
+  const[casesType,setCaseType]=useState("cases")
 
   useEffect(() => {
 
@@ -89,20 +90,20 @@ function App() {
       </div>
 
         <div className="app_stats">
-          <InfoBox title="Covid-19 Cases" cases={countryInfo.todayCases} total={countryInfo.cases}></InfoBox>
-          <InfoBox title="Recovered" cases={countryInfo.todayRecovered} total={countryInfo.recovered}></InfoBox>
-          <InfoBox title="Deaths" cases={countryInfo.todayDeaths} total={countryInfo.deaths}></InfoBox>
+          <InfoBox isRed active={casesType==="cases"} onClick={(e)=>setCaseType("cases")} title="Covid-19 Cases" cases={prettyPrintStat(countryInfo.todayCases)} total={prettyPrintStat(countryInfo.cases)}></InfoBox>
+          <InfoBox active={casesType==="recovered"} onClick={(e)=>setCaseType("recovered")}title="Recovered" cases={prettyPrintStat(countryInfo.todayRecovered)} total={prettyPrintStat(countryInfo.recovered)}></InfoBox>
+          <InfoBox isRed active={casesType==="deaths"} onClick={(e)=>setCaseType("deaths")} title="Deaths" cases={prettyPrintStat(countryInfo.todayDeaths)} total={prettyPrintStat(countryInfo.deaths)}></InfoBox>
         </div>
 
-        <Map countries={mapCountries} center={mapCenter} zoom={mapZoom} casesType="cases" />
+        <Map casesType={casesType} countries={mapCountries} center={mapCenter} zoom={mapZoom} />
       </div>
 
       <Card className="app_right">
         <CardContent>
           <h2>Live Cases by country</h2>
           <Table countries={tableData} />
-          <h3>Worldwide new cases</h3>
-          <LineGraph />
+          <h3 className="app__graphTitle">Worldwide new {casesType}</h3>
+          <LineGraph casesType={casesType}/>
         </CardContent>
       </Card>
     </div>
