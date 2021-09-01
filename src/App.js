@@ -66,7 +66,11 @@ function App() {
 
       setCountry(countryCode);
       setCountryInfo(data);
-      setMapCenter([data.countryInfo.lat,data.countryInfo.long]);
+
+      countryCode=== "worldwide" ? setMapCenter([34.80746,-40.4796]) 
+      :setMapCenter([data.countryInfo.lat,data.countryInfo.long]);
+      
+      // setMapCenter([data.countryInfo.lat,data.countryInfo.long]);
       setMapZoom(4);
      })
   }
