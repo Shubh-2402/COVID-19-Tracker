@@ -1,7 +1,7 @@
 # COVID-19 Tracker
 Link to the website (https://covid-19-tracker-f19ec.web.app/)
 
-![Screenshot](Screenshot.png)
+![Screenshot](./Screenshot.png)
 
 # Getting Started with Create React App
 
